@@ -1,20 +1,33 @@
-﻿// 电子时钟.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+﻿//编译环境：Visual Stdio 2019，EasyX 2020.07.21版本
+//作	者：胡金涛
 //
+#include <graphics.h>
+#include <time.h>
+#include <conio.h>
+#include <GUI.h>
+#include <img.h>
+#include <math.h>
+#pragma warning(disable:4996)
+POINT StartPoint = { 0,0 };																								//图片左上点
+POINT CentralPoint = { 150 + StartPoint.x,151 + StartPoint.y };																//表盘圆心点
 
-#include <iostream>
-
+POINT TimePoint[180];
+time_t tt = time(NULL);
+tm* t = localtime(&tt);
+int ts;
 int main()
 {
-    std::cout << "Hello World!\n";
+	initgraph(WIDTH, HEIGHT);																							//新建窗口
+	ShowImgRGB888(StartPoint.x, StartPoint.y, 300, 300, gImage_1);														//画表盘
+	TimePointInit(CentralPoint, TimePoint);																				//初始化指针终点位置
+	while (!kbhit())																									//按任意键关闭
+	{
+		ts = t->tm_sec;
+		time_t tt = time(NULL);
+		tm* t = localtime(&tt);																							//获取系统时钟
+		if (t->tm_sec != ts) {																								//每秒更新一次
+			DrawNeedle(StartPoint, CentralPoint, TimePoint, t->tm_hour, t->tm_min, t->tm_sec, WHITE, BLUE, YELLOW, gImage_1);	//画出指针
+		}
+	}
+	closegraph();																										//关闭窗口
 }
-
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
-
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件

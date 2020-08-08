@@ -1,5 +1,5 @@
 ﻿//编译环境：Visual Stdio 2019，EasyX 2020.07.21版本
-//作	者：胡金涛
+//作	者：Delay-n-days
 //
 #include <graphics.h>
 #include <time.h>
